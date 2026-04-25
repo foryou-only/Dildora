@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Твоё сердце | Магия</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+/* ==================== КОСМИЧЕСКИЙ ФОН С АНИМАЦИЕЙ ==================== */
+
+    body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 20% 50%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1a3e 25%, #16213e 50%, #0f3460 75%, #0a0e27 100%);
+    background-size: 200% 200%;
+    animation: gradientFlow 20s ease infinite;
+    font-family: 'Poppins', 'Segoe UI', 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
+    gap: 30px;
+    }
+
+    /* Звёзды фона */
+    body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkleStars 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+    }
+
+    @keyframes twinkleStars {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+    }
+
+    /* Парящие частицы */
+    body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.1) 0%, transparent 15%),
+        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 25% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 18%),
+        radial-gradient(circle at 75% 60%, rgba(139, 92, 246, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 30%);
+    animation: cosmicShift 30s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+    }
+
+    @keyframes cosmicShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+    }
+
+    @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+    }
+
+    /* Плавающие планеты и метеоры */
+    .cosmic-element {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+    }
+
+    .planet-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 5%;
+    background: radial-gradient(circle at 35% 35%, rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.2));
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+    animation: floatPlanet 25s ease-in-out infinite;
+    }
+
+    .planet-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    background: radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.3), rgba(168, 85, 247, 0.1));
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.25);
+    animation: floatPlanet 30s ease-in-out infinite reverse;
+    }
+
+    .planet-3 {
+    width: 120px;
+    height: 120px;
+    top: 70%;
+    left: 15%;
+    background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.35), rgba(99, 102, 241, 0.15));
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    animation: floatPlanet 28s ease-in-out infinite;
+    }
+
+    @keyframes floatPlanet {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-30px) translateX(20px); }
+    50% { transform: translateY(0px) translateX(40px); }
+    75% { transform: translateY(-20px) translateX(15px); }
+    }
+
+    /* Метеоры */
+    .meteor {
+    position: fixed;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+    z-index: 2;
+    animation: meteorFall 3s linear infinite;
+    }
+
+    .meteor-1 { top: -80px; left: 20%; animation-delay: 0s; }
+    .meteor-2 { top: -80px; left: 50%; animation-delay: 1s; }
+    .meteor-3 { top: -80px; right: 20%; animation-delay: 2s; }
+
+    @keyframes meteorFall {
+    to {
+        transform: translateY(100vh) translateX(100px);
+        opacity: 0;
+    }
+    }
+
+    /* Убедись что контент выше фона */
+    .page {
+    position: relative;
+    z-index: 10;
+    }
+
+    .page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    /* ==================== ГЛАВНАЯ СТРАНИЦА ==================== */
+    .main-page {
+      gap: 30px;
+    }
+
+    .glass-card {
+      background: rgba(25, 10, 35, 0.45);
+      backdrop-filter: blur(16px);
+      border-radius: 64px;
+      padding: 2rem 2rem 2.8rem;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 220, 255, 0.5);
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(210, 160, 255, 0.6);
+    }
+
+    .glass-card:hover {
+      transform: scale(1.01);
+    }
+
+    .glow-text {
+      font-size: 3.6rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #f0e6ff, #e7b9ff, #ffb3f0);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 12px rgba(200, 130, 255, 0.6);
+      margin-bottom: 0.5rem;
+      animation: textSoftGlow 2.2s infinite ease;
+      display: inline-block;
+    }
+
+    @keyframes textSoftGlow {
+      0% { text-shadow: 0 0 5px #d9a7ff; opacity: 0.95; transform: scale(1);}
+      50% { text-shadow: 0 0 22px #ffb3fa, 0 0 5px white; opacity: 1; transform: scale(1.01);}
+      100% { text-shadow: 0 0 5px #d9a7ff; opacity: 0.95; transform: scale(1);}
+    }
+
+    .sub {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #f8edff;
+      text-shadow: 0 2px 8px #5a2a7a;
+      margin-bottom: 1rem;
+      background: rgba(120, 60, 150, 0.3);
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+    }
+
+    .emoji-zone {
+      font-size: 3.2rem;
+      margin: 20px 0 10px;
+      filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
+      animation: bounceEmoji 1.8s infinite;
+    }
+
+    @keyframes bounceEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    .message-box {
+      background: rgba(45, 20, 65, 0.75);
+      border-radius: 50px;
+      padding: 16px 22px;
+      margin: 25px 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #ffe6fa;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      word-break: break-word;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .message-text {
+      display: inline-block;
+      animation: fadeSlide 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(20px) scale(0.9);}
+      100% { opacity: 1; transform: translateY(0) scale(1);}
+    }
+
+    .cheer-button, .heart-photo-btn {
+      background: linear-gradient(115deg, #bd7be0, #9b4fca);
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: white;
+      border-radius: 80px;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: inherit;
+      margin-top: 10px;
+    }
+
+    .cheer-button:hover, .heart-photo-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(115deg, #cd8eff, #b15fdf);
+    }
+
+    .heart-photo-btn {
+      margin-left: 12px;
+      background: linear-gradient(115deg, #c77dff, #a55ad9);
+    }
+
+    .photo-grid-container {
+      perspective: 1200px;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: none;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 60px);
+      grid-gap: 10px;
+      justify-content: center;
+      background: rgba(50, 20, 70, 0.3);
+      padding: 25px;
+      border-radius: 40px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(200, 150, 255, 0.4);
+    }
+
+    .photo-frame {
+      width: 60px;
+      height: 60px;
+      position: relative;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: all 0.3s ease;
+    }
+
+    .photo-frame:hover {
+      transform: scale(1.1) translateZ(20px);
+    }
+
+    .photo-frame-inner {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff1493, #ff69b4, #ffb3e0);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 20, 147, 0.8);
+      box-shadow: 0 0 20px rgba(255, 20, 147, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-frame-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .photo-frame-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+      z-index: 1;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* ==================== СТРАНИЦА С СЕРДЦЕМ ==================== */
+    .heart-page {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: linear-gradient(115deg, #bd7be0, #9b4fca);
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: 0.2s;
+      z-index: 100;
+      font-family: inherit;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(115deg, #cd8eff, #b15fdf);
+    }
+
+    .heart-canvas {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-item {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 20, 147, 0.9);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      transition: all 0.7s cubic-bezier(0.2, 0.85, 0.4, 1.1);
+      overflow: hidden;
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    @keyframes sparkPop {
+      0% { opacity: 0.9; transform: scale(1);}
+      100% { opacity: 0; transform: scale(1.8);}
+    }
+
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      width: 8px;
+      height: 8px;
+      background: #f0b3ff;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: sparkPop 0.8s ease-out forwards;
+      z-index: 999;
+      box-shadow: 0 0 8px #ffb3f0;
+    }
+
+    @keyframes floatUpMagic {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      100% { transform: translateY(-120vh) rotate(420deg); opacity: 0; }
+    }
+
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      z-index: 20;
+      filter: drop-shadow(0 0 10px #ea9eff);
+      animation: floatUpMagic 2.5s ease-out forwards;
+    }
+
+    @media (max-width: 650px) {
+      .photo-grid {
+        grid-template-columns: repeat(5, 50px);
+        grid-gap: 8px;
+        padding: 15px;
+      }
+
+      .photo-frame {
+        width: 50px;
+        height: 50px;
+      }
+
+      .cheer-button, .heart-photo-btn { 
+        padding: 10px 18px; 
+        font-size: 1rem; 
+      }
+
+      .message-box { 
+        font-size: 1.2rem; 
+      }
+
+      .back-btn {
+        top: 15px;
+        left: 15px;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* ==================== МОБИЛЬНЫЕ УСТРОЙСТВА (< 480px) ==================== */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .page {
+        padding: 10px;
+      }
+
+      .glass-card {
+        padding: 1.5rem 1rem;
+        border-radius: 40px;
+        max-width: 100%;
+      }
+
+      .glow-text {
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .sub {
+        font-size: 0.95rem;
+        padding: 0.1rem 0.8rem;
+      }
+
+      .emoji-zone {
+        font-size: 2.5rem;
+        margin: 10px 0;
+      }
+
+      .message-box {
+        font-size: 1rem;
+        padding: 12px 16px;
+        margin: 15px 0;
+        min-height: 80px;
+      }
+
+      .cheer-button, .heart-photo-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .heart-photo-btn {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .cheer-button {
+        width: 100%;
+      }
+
+      .photo-grid-container {
+        max-width: 100%;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(4, 45px);
+        grid-gap: 6px;
+        padding: 12px;
+      }
+
+      .photo-frame {
+        width: 45px;
+        height: 45px;
+      }
+
+      .back-btn {
+        top: 10px;
+        left: 10px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+        border-radius: 50px;
+      }
+
+      .photo-item {
+        width: 60px;
+        height: 60px;
+      }
+
+      .floating-heart {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* ==================== ПЛАНШЕТЫ (480px - 1024px) ==================== */
+    @media (min-width: 481px) and (max-width: 1024px) {
+      body {
+        padding: 15px;
+      }
+
+      .glass-card {
+        padding: 1.8rem 1.5rem;
+        border-radius: 50px;
+        max-width: 90%;
+      }
+
+      .glow-text {
+        font-size: 2.8rem;
+      }
+
+      .sub {
+        font-size: 1.1rem;
+        padding: 0.15rem 0.9rem;
+      }
+
+      .emoji-zone {
+        font-size: 2.8rem;
+        margin: 15px 0;
+      }
+
+      .message-box {
+        font-size: 1.2rem;
+        padding: 14px 20px;
+        margin: 20px 0;
+        min-height: 90px;
+      }
+
+      .cheer-button, .heart-photo-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+        margin-top: 8px;
+      }
+
+      .heart-photo-btn {
+        margin-left: 10px;
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(5, 55px);
+        grid-gap: 8px;
+        padding: 20px;
+      }
+
+      .photo-frame {
+        width: 55px;
+        height: 55px;
+      }
+
+      .back-btn {
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+
+      .photo-item {
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    /* ==================== ДОПОЛНИТЕЛЬНАЯ АДАПТАЦИЯ ДЛЯ ЛАНДШАФТНОЙ ОРИЕНТАЦИИ ==================== */
+    @media (max-height: 600px) {
+      .glass-card {
+        padding: 1rem 1.5rem;
+      }
+
+      .glow-text {
+        font-size: 2rem;
+        margin-bottom: 0.2rem;
+      }
+
+      .emoji-zone {
+        font-size: 2rem;
+        margin: 8px 0;
+      }
+
+      .message-box {
+        font-size: 0.95rem;
+        padding: 10px 15px;
+        margin: 10px 0;
+        min-height: 70px;
+      }
+
+      .cheer-button, .heart-photo-btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+  </style>
+  </style>
+</head>
+<body>
+
+<!-- ==================== ГЛАВНАЯ СТРАНИЦА ==================== -->
+<div class="page main-page active" id="mainPage">
+  <div class="glass-card">
+    <div class="emoji-zone">🌙✨🪄💜✨</div>
+    <h1 class="glow-text">Ты — волшебство!</h1>
+    <div class="sub">✨ Сердце собирается из твоих моментов ✨</div>
+
+    <div class="message-box" id="inspireMessage">
+      <span class="message-text">💜 Нажми на кнопку — и мир наполнится счастьем 💜</span>
+    </div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="cheer-button" id="cheerBtn">🎉 Поднять настроение 🎉</button>
+      <button class="heart-photo-btn" id="photoHeartBtn">📸 Создать магию 💜</button>
+    </div>
+
+  </div>
+
+  <div class="photo-grid-container">
+    <div class="photo-grid" id="photoGrid"></div>
+  </div>
+</div>
+
+<!-- ==================== СТРАНИЦА С СЕРДЦЕМ ==================== -->
+<div class="page heart-page" id="heartPage">
+  <button class="back-btn" id="backBtn">← Назад на главную</button>
+  <div class="heart-canvas" id="heartCanvas"></div>
+</div>
+
+<script>
+  // ================== МАССИВ ИЗ 30 СООБЩЕНИЙ ==================
+  const MESSAGES_30 = [
+    "💜 Ты — мой самый яркий лучик! 💜",
+    "🌸 Твоя улыбка лепестки сакуры 🌸",
+    "✨ Ты способна на невозможное ✨",
+    "🌟 Сегодня мир улыбается тебе! 🌟",
+    "🍀 Ты — магнит для чудес 🍀",
+    "💖 Твоё сердце поёт весну 💖",
+    "🌙 Даже луна завидует твоей красоте 🌙",
+    "🎈 Отпусти грусть — поймай радость 🎈",
+    "🦋 Ты — бабочка, которая меняет всё 🦋",
+    "🌈 Радуга внутри тебя сияет ярче всех 🌈",
+    "🍬 Ты — конфетка дня, сладкая и нежная 🍬",
+    "📸 Каждый твой момент — шедевр 📸",
+    "💎 Твоя уникальность бесценна 💎",
+    "🎶 Твоя душа танцует в ритме счастья 🎶",
+    "🌺 Ты расцветаешь с каждым днём 🌺",
+    "⭐ Ты — звезда, которая ведёт за собой ⭐",
+    "🧸 Обнимаю тебя мысленно очень крепко 🧸",
+    "🌸 Твоя энергия вдохновляет всех вокруг 🌸",
+    "🍭 Ты — лучшая версия себя сегодня 🍭",
+    "💫 Случится что-то волшебное, я знаю 💫",
+    "🌊 Ты — океан спокойствия и силы 🌊",
+    "🍰 Ты заслуживаешь весь торт счастья 🍰",
+    "🎀 Твоя улыбка — лучший аксессуар 🎀",
+    "💜 Ты — моя любимая магия 💜",
+    "🏆 Ты побеждаешь грусть каждый день 🏆",
+    "🍬 Пусть твои мечты сбываются немедленно 🍬",
+    "🌸 Ты — весна, даже когда зима 🌸",
+    "💖 Твоё сердце — сокровище 💖",
+    "✨ Никто не сияет так, как ты ✨",
+    "🎉 Сегодня твой день — праздник души 🎉"
+  ];
+
+  let remainingMessages = [...MESSAGES_30];
+  let currentMsgIndex = 0;
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  shuffleArray(remainingMessages);
+
+  function getNextUniqueMessage() {
+    if (currentMsgIndex >= remainingMessages.length) {
+      remainingMessages = shuffleArray([...MESSAGES_30]);
+      currentMsgIndex = 0;
+    }
+    const msg = remainingMessages[currentMsgIndex];
+    currentMsgIndex++;
+    return msg;
+  }
+
+  // ==================== ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ====================
+  function goToHeartPage() {
+    document.getElementById('mainPage').classList.remove('active');
+    document.getElementById('heartPage').classList.add('active');
+  }
+
+  function goToMainPage() {
+    document.getElementById('heartPage').classList.remove('active');
+    document.getElementById('mainPage').classList.add('active');
+  }
+
+  document.getElementById('backBtn').addEventListener('click', goToMainPage);
+
+  // ==================== СОЗДАНИЕ СЕТКИ ФОТОГРАФИЙ ====================
+   const myPhotos = [
+  "photo/1.png",
+  "photo/2.png",
+  "photo/3.png",
+  "photo/4.png",
+  "photo/5.png",
+  "photo/6.png",
+  "photo/7.png",
+  "photo/8.png",
+  "photo/9.png",
+  "photo/10.png",
+  "photo/11.png",
+  "photo/12.png",
+  "photo/13.png",
+  "photo/14.png",
+  "photo/15.png",
+  "photo/16.png",
+  "photo/17.png",
+  "photo/18.png",
+  "photo/19.png",
+  "photo/20.png",
+  "photo/21.png",
+  "photo/22.png",
+  "photo/23.png",
+  "photo/24.png",
+  "photo/25.png",
+  "photo/26.png",
+  "photo/27.png",
+  "photo/28.png",
+  "photo/29.png",
+  "photo/30.png",
+  "photo/31.png",
+  "photo/32.png",
+  "photo/33.png",
+  "photo/34.png",
+  "photo/35.png",
+  "photo/36.png",
+  "photo/37.png",
+  "photo/38.png",
+  "photo/39.png",
+  "photo/40.png",
+  "photo/41.png",
+  "photo/42.png",
+  "photo/43.png",
+  "photo/44.png",
+  "photo/45.png",
+  "photo/46.png",
+  "photo/47.png",
+  "photo/48.png",
+  "photo/49.png",
+  "photo/50.png",
+  "photo/51.png",
+  "photo/52.png",
+  "photo/53.png",
+  "photo/54.png",
+  "photo/55.png",
+  "photo/56.png",
+  "photo/57.png",
+  "photo/58.png",
+  "photo/59.png",
+  "photo/60.png"
+];
+function createPhotoGrid() {
+  const grid = document.getElementById('photoGrid');
+  for (let i = 0; i < myPhotos.length; i++) {
+    const frame = document.createElement('div');
+    frame.className = 'photo-frame';
+    frame.dataset.index = i;
+    const inner = document.createElement('div');
+    inner.className = 'photo-frame-inner';
+
+    const img = document.createElement('img');
+    img.src = myPhotos[i];           // ← используем массив
+    img.alt = `Photo ${i + 1}`;
+
+    inner.appendChild(img);
+    frame.appendChild(inner);
+    grid.appendChild(frame);
+  }
+}
+
+  // ==================== ЭФФЕКТЫ ====================
+  const messageBox = document.getElementById('inspireMessage');
+  const cheerBtn = document.getElementById('cheerBtn');
+  const photoHeartBtn = document.getElementById('photoHeartBtn');
+
+  function setRandomMessage() {
+    const newMsg = getNextUniqueMessage();
+    const msgSpan = messageBox.querySelector('.message-text');
+    if (msgSpan) {
+      msgSpan.style.animation = 'none';
+      msgSpan.offsetHeight;
+      msgSpan.style.animation = 'fadeSlide 0.4s ease-out';
+      msgSpan.innerHTML = newMsg;
+    }
+  }
+
+  function burstConfetti() {
+    canvasConfetti({ 
+      particleCount: 140, 
+      spread: 80, 
+      origin: { y: 0.6 }, 
+      colors: ['#c77dff', '#b577e0', '#ffb3f0', '#ffffff'], 
+      startVelocity: 16 
+    });
+    setTimeout(() => {
+      canvasConfetti({ particleCount: 70, spread: 50, origin: { y: 0.4, x: 0.2 }, colors: ['#ad5ad9', '#e1a5ff'] });
+      canvasConfetti({ particleCount: 70, spread: 50, origin: { y: 0.4, x: 0.8 }, colors: ['#9d4bc9', '#ffbef5'] });
+    }, 120);
+  }
+
+  function addSparkle(x, y) {
+    for (let i = 0; i < 5; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'sparkle';
+      const xOff = (Math.random() - 0.5) * 30;
+      const yOff = (Math.random() - 0.5) * 30;
+      spark.style.left = `${x + xOff}px`;
+      spark.style.top = `${y + yOff}px`;
+      document.body.appendChild(spark);
+      setTimeout(() => spark.remove(), 900);
+    }
+  }
+
+  function createFloatingHearts(count = 18) {
+    const symbols = ['💜', '💖', '💗', '💓', '🌸', '✨'];
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement('div');
+      heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      heart.classList.add('floating-heart');
+      heart.style.fontSize = `${1.2 + Math.random() * 2}rem`;
+      heart.style.left = `${5 + Math.random() * 90}%`;
+      heart.style.bottom = '-20px';
+      const dur = 2 + Math.random() * 4;
+      heart.style.animation = `floatUpMagic ${dur}s ease-out forwards`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), dur * 1000);
+    }
+  }
+
+  function cheerUp() {
+    setRandomMessage();
+    burstConfetti();
+    createFloatingHearts(22);
+    const cx = window.innerWidth / 2, cy = window.innerHeight / 1.6;
+    for (let i = 0; i < 12; i++) {
+      setTimeout(() => addSparkle(cx + (Math.random() - 0.5) * 100, cy + (Math.random() - 0.5) * 80), i * 40);
+    }
+    if (navigator.vibrate) navigator.vibrate(50);
+    const card = document.querySelector('.glass-card');
+    card.style.background = 'rgba(85, 40, 115, 0.7)';
+    setTimeout(() => card.style.background = '', 200);
+  }
+
+  // ==================== АНИМАЦИЯ СЕРДЦА ИЗ ФОТО ====================
+ 
+  function createHeartShape() {
+    const canvas = document.getElementById('heartCanvas');
+    canvas.innerHTML = '';
+    
+    const frames = document.querySelectorAll('.photo-frame');
+    const photoCount = frames.length;
+    
+    // Генерируем точки в форме сердца
+    const heartPoints = [];
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    // Адаптивный масштаб в зависимости от размера экрана
+    let scale = Math.min(window.innerWidth, window.innerHeight) * 0.03;
+    
+    // Для мобильных устройств уменьшаем масштаб еще больше
+    if (window.innerWidth < 480) {
+      scale = Math.min(window.innerWidth, window.innerHeight) * 0.025;
+    } else if (window.innerWidth < 1024) {
+      scale = Math.min(window.innerWidth, window.innerHeight) * 0.028;
+    }
+
+    for (let i = 0; i < photoCount; i++) {
+      const t = (i / photoCount) * Math.PI * 2;
+      
+      // Параметрическое уравнение сердца
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
+      
+      const posX = centerX + x * scale;
+      const posY = centerY - y * scale;
+      
+      heartPoints.push({ x: posX, y: posY });
+    }
+
+    // Создаём элементы фото
+    frames.forEach((frame, idx) => {
+      const div = document.createElement('div');
+      div.className = 'photo-item';
+      
+      // Адаптивный размер фоток
+      let photoSize = 80;
+      if (window.innerWidth < 480) {
+        photoSize = 55;
+      } else if (window.innerWidth < 1024) {
+        photoSize = 65;
+      }
+      
+      div.style.width = `${photoSize}px`;
+      div.style.height = `${photoSize}px`;
+      
+      const img = frame.querySelector('img');
+      if (img) {
+        const clonedImg = img.cloneNode(true);
+        clonedImg.style.width = '100%';
+        clonedImg.style.height = '100%';
+        clonedImg.style.objectFit = 'cover';
+        clonedImg.style.borderRadius = '10px';
+        div.appendChild(clonedImg);
+      }
+
+      // Начальная позиция - ВСЕ НАЧИНАЮТСЯ ИЗ ЦЕНТРА
+      div.style.left = `${centerX - photoSize/2}px`;
+      div.style.top = `${centerY - photoSize/2}px`;
+      div.style.transform = `scale(0.3) rotate(0deg)`;
+      div.style.opacity = '0.8';
+      
+      canvas.appendChild(div);
+
+      // Анимация в позицию на сердце
+      const target = heartPoints[idx];
+      setTimeout(() => {
+        div.style.left = `${target.x - photoSize/2}px`;
+        div.style.top = `${target.y - photoSize/2}px`;
+        div.style.transform = 'scale(1) rotate(0deg)';
+        div.style.opacity = '1';
+        
+        // Искры при прилёте
+        setTimeout(() => {
+          addSparkle(target.x, target.y);
+        }, 100);
+      }, idx * 25);
+    });
+
+    // Конфетти в начале
+    setTimeout(() => {
+      canvasConfetti({ 
+        particleCount: 150, 
+        spread: 80, 
+        origin: { y: 0.5 }, 
+        colors: ['#d28eff', '#ffb3f0', '#c77dff', '#ff69b4'] 
+      });
+    }, 200);
+
+    // Финальный фейерверк
+    setTimeout(() => {
+      canvasConfetti({ 
+        particleCount: 300, 
+        spread: 100, 
+        origin: { y: 0.5 }, 
+        colors: ['#c683ff', '#f6cbff', '#ffb0f0', '#ff69b4'] 
+      });
+      createFloatingHearts(20);
+    }, photoCount * 50 + 500);
+  }
+
+  cheerBtn.addEventListener('click', cheerUp);
+  photoHeartBtn.addEventListener('click', () => {
+    goToHeartPage();
+    setTimeout(() => {
+      createHeartShape();
+    }, 100);
+    if (navigator.vibrate) navigator.vibrate(30);
+  });
+
+  // Инициализация
+  document.addEventListener('DOMContentLoaded', () => {
+    createPhotoGrid();
+    setTimeout(() => {
+      burstConfetti();
+      createFloatingHearts(16);
+      setRandomMessage();
+    }, 400);
+  });
+
+  console.log('%c✨ Сердце из 30 фото - готово! ✨', 'color:#c77dff;font-size:14px;font-weight:bold');
+  
+</script>
+</body>
+</html>
