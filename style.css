@@ -1,0 +1,854 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+/* ==================== КОСМИЧЕСКИЙ ФОН С АНИМАЦИЕЙ ==================== */
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 20% 50%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0e27 0%, #1a1a3e 25%, #16213e 50%, #0f3460 75%, #0a0e27 100%);
+    background-size: 200% 200%;
+    animation: gradientFlow 20s ease infinite;
+    font-family: 'Poppins', 'Segoe UI', 'Quicksand', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px;
+    gap: 30px;
+    }
+
+    /* Звёзды фона */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: twinkleStars 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+    }
+
+    @keyframes twinkleStars {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+    /* Парящие частицы */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.1) 0%, transparent 15%),
+        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 25% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 18%),
+        radial-gradient(circle at 75% 60%, rgba(139, 92, 246, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 50% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 30%);
+    animation: cosmicShift 30s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes cosmicShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+    @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+    /* Плавающие планеты и метеоры */
+.cosmic-element {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.planet-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 5%;
+    background: radial-gradient(circle at 35% 35%, rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.2));
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+    animation: floatPlanet 25s ease-in-out infinite;
+}
+
+.planet-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    background: radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.3), rgba(168, 85, 247, 0.1));
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.25);
+    animation: floatPlanet 30s ease-in-out infinite reverse;
+}
+
+.planet-3 {
+    width: 120px;
+    height: 120px;
+    top: 70%;
+    left: 15%;
+    background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.35), rgba(99, 102, 241, 0.15));
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    animation: floatPlanet 28s ease-in-out infinite;
+}
+
+@keyframes floatPlanet {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    25% { transform: translateY(-30px) translateX(20px); }
+    50% { transform: translateY(0px) translateX(40px); }
+    75% { transform: translateY(-20px) translateX(15px); }
+}
+
+    /* Метеоры */
+.meteor {
+    position: fixed;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+    z-index: 2;
+    animation: meteorFall 3s linear infinite;
+}
+
+.meteor-1 { top: -80px; left: 20%; animation-delay: 0s; }
+.meteor-2 { top: -80px; left: 50%; animation-delay: 1s; }
+.meteor-3 { top: -80px; right: 20%; animation-delay: 2s; }
+
+@keyframes meteorFall {
+    to {
+        transform: translateY(100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+    /* Убедись что контент выше фона */
+.page {
+    position: relative;
+    z-index: 10;
+}
+
+.page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1;
+}
+
+.page.active {
+    display: flex;
+}
+
+/* ==================== ГЛАВНАЯ СТРАНИЦА ==================== */
+.main-page {
+    gap: 30px;
+}
+
+.glass-card {
+    background: rgba(25, 10, 35, 0.45);
+    backdrop-filter: blur(16px);
+    border-radius: 64px;
+    padding: 2rem 2rem 2.8rem;
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 220, 255, 0.5);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(210, 160, 255, 0.6);
+}
+
+.glass-card:hover {
+    transform: scale(1.01);
+}
+
+.glow-text {
+    font-size: 3.6rem;
+    font-weight: 800;
+    background: linear-gradient(145deg, #f0e6ff, #e7b9ff, #ffb3f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 12px rgba(200, 130, 255, 0.6);
+    margin-bottom: 0.5rem;
+    animation: textSoftGlow 2.2s infinite ease;
+    display: inline-block;
+}
+
+@keyframes textSoftGlow {
+    0% { text-shadow: 0 0 5px #d9a7ff; opacity: 0.95; transform: scale(1);}
+    50% { text-shadow: 0 0 22px #ffb3fa, 0 0 5px white; opacity: 1; transform: scale(1.01);}
+    100% { text-shadow: 0 0 5px #d9a7ff; opacity: 0.95; transform: scale(1);}
+}
+
+.sub {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #f8edff;
+    text-shadow: 0 2px 8px #5a2a7a;
+    margin-bottom: 1rem;
+    background: rgba(120, 60, 150, 0.3);
+    display: inline-block;
+    padding: 0.2rem 1rem;
+    border-radius: 60px;
+    backdrop-filter: blur(4px);
+}
+
+.emoji-zone {
+    font-size: 3.2rem;
+    margin: 20px 0 10px;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
+    animation: bounceEmoji 1.8s infinite;
+}
+
+@keyframes bounceEmoji {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(4deg); }
+}
+
+.message-box {
+    background: rgba(45, 20, 65, 0.75);
+    border-radius: 50px;
+    padding: 16px 22px;
+    margin: 25px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffe6fa;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    word-break: break-word;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-text {
+    display: inline-block;
+    animation: fadeSlide 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+@keyframes fadeSlide {
+    0% { opacity: 0; transform: translateY(20px) scale(0.9);}
+    100% { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+.cheer-button, .heart-photo-btn {
+    background: linear-gradient(115deg, #bd7be0, #9b4fca);
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 80px;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+    margin-top: 10px;
+}
+
+.cheer-button:hover, .heart-photo-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(115deg, #cd8eff, #b15fdf);
+}
+
+.heart-photo-btn {
+    margin-left: 12px;
+    background: linear-gradient(115deg, #c77dff, #a55ad9);
+}
+
+.photo-grid-container {
+    perspective: 1200px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    display: none;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    grid-gap: 10px;
+    justify-content: center;
+    background: rgba(50, 20, 70, 0.3);
+    padding: 25px;
+    border-radius: 40px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(200, 150, 255, 0.4);
+}
+
+.photo-frame {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+}
+
+.photo-frame:hover {
+    transform: scale(1.1) translateZ(20px);
+}
+
+.photo-frame-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff1493, #ff69b4, #ffb3e0);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 20, 147, 0.8);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-frame-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.photo-frame-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+    z-index: 1;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ==================== СТРАНИЦА С СЕРДЦЕМ ==================== */
+.heart-page {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.back-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    background: linear-gradient(115deg, #bd7be0, #9b4fca);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+    z-index: 100;
+    font-family: inherit;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(115deg, #cd8eff, #b15fdf);
+}
+
+.heart-canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-item {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 20, 147, 0.9);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    transition: all 0.7s cubic-bezier(0.2, 0.85, 0.4, 1.1);
+    overflow: hidden;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+@keyframes sparkPop {
+    0% { opacity: 0.9; transform: scale(1);}
+    100% { opacity: 0; transform: scale(1.8);}
+}
+
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    width: 8px;
+    height: 8px;
+    background: #f0b3ff;
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: sparkPop 0.8s ease-out forwards;
+    z-index: 999;
+    box-shadow: 0 0 8px #ffb3f0;
+}
+
+@keyframes floatUpMagic {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    100% { transform: translateY(-120vh) rotate(420deg); opacity: 0; }
+}
+
+.floating-heart {
+    position: fixed;
+    pointer-events: none;
+    font-size: 2rem;
+    z-index: 20;
+    filter: drop-shadow(0 0 10px #ea9eff);
+    animation: floatUpMagic 2.5s ease-out forwards;
+}
+
+@media (max-width: 650px) {
+    .photo-grid {
+    grid-template-columns: repeat(5, 50px);
+    grid-gap: 8px;
+    padding: 15px;
+    }
+
+    .photo-frame {
+    width: 50px;
+    height: 50px;
+    }
+
+    .cheer-button, .heart-photo-btn { 
+    padding: 10px 18px; 
+    font-size: 1rem; 
+    }
+
+    .message-box { 
+    font-size: 1.2rem; 
+    }
+
+    .back-btn {
+    top: 15px;
+    left: 15px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    }
+}
+
+/* ==================== МОБИЛЬНЫЕ УСТРОЙСТВА (< 480px) ==================== */
+@media (max-width: 480px) {
+    body {
+    padding: 10px;
+    }
+
+    .page {
+    padding: 10px;
+    }
+
+    .glass-card {
+    padding: 1.5rem 1rem;
+    border-radius: 40px;
+    max-width: 100%;
+    }
+
+    .glow-text {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+    }
+
+    .sub {
+    font-size: 0.95rem;
+    padding: 0.1rem 0.8rem;
+    }
+
+    .emoji-zone {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    }
+
+    .message-box {
+    font-size: 1rem;
+    padding: 12px 16px;
+    margin: 15px 0;
+    min-height: 80px;
+    }
+
+    .cheer-button, .heart-photo-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    gap: 8px;
+    margin-top: 8px;
+    }
+
+    .heart-photo-btn {
+    margin-left: 0;
+    width: 100%;
+    }
+
+    .cheer-button {
+    width: 100%;
+    }
+
+    .photo-grid-container {
+    max-width: 100%;
+    }
+
+    .photo-grid {
+    grid-template-columns: repeat(4, 45px);
+    grid-gap: 6px;
+    padding: 12px;
+    }
+
+    .photo-frame {
+    width: 45px;
+    height: 45px;
+    }
+
+    .back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: 50px;
+    }
+
+    .photo-item {
+    width: 60px;
+    height: 60px;
+    }
+
+    .floating-heart {
+    font-size: 1.5rem;
+    }
+}
+
+/* ==================== ПЛАНШЕТЫ (480px - 1024px) ==================== */
+@media (min-width: 481px) and (max-width: 1024px) {
+    body {
+    padding: 15px;
+    }
+
+    .glass-card {
+    padding: 1.8rem 1.5rem;
+    border-radius: 50px;
+    max-width: 90%;
+    }
+
+    .glow-text {
+    font-size: 2.8rem;
+    }
+
+    .sub {
+    font-size: 1.1rem;
+    padding: 0.15rem 0.9rem;
+    }
+
+    .emoji-zone {
+    font-size: 2.8rem;
+    margin: 15px 0;
+    }
+
+    .message-box {
+    font-size: 1.2rem;
+    padding: 14px 20px;
+    margin: 20px 0;
+    min-height: 90px;
+    }
+
+    .cheer-button, .heart-photo-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-top: 8px;
+    }
+
+    .heart-photo-btn {
+    margin-left: 10px;
+    }
+
+    .photo-grid {
+    grid-template-columns: repeat(5, 55px);
+    grid-gap: 8px;
+    padding: 20px;
+    }
+
+    .photo-frame {
+    width: 55px;
+    height: 55px;
+    }
+
+    .back-btn {
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    }
+
+    .photo-item {
+    width: 70px;
+    height: 70px;
+    }
+}
+
+/* ==================== ДОПОЛНИТЕЛЬНАЯ АДАПТАЦИЯ ДЛЯ ЛАНДШАФТНОЙ ОРИЕНТАЦИИ ==================== */
+@media (max-height: 600px) {
+    .glass-card {
+    padding: 1rem 1.5rem;
+    }
+
+    .glow-text {
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+    }
+
+    .emoji-zone {
+    font-size: 2rem;
+    margin: 8px 0;
+    }
+
+    .message-box {
+    font-size: 0.95rem;
+    padding: 10px 15px;
+    margin: 10px 0;
+    min-height: 70px;
+    }
+
+    .cheer-button, .heart-photo-btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    }
+}
+
+
+/* ==================== МОДАЛЬНОЕ ОКНО ПАРОЛЯ ==================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: 0.3s;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #2a0f3a, #1a1a3e);
+  padding: 40px 35px;
+  border-radius: 60px;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(147, 51, 234, 0.6);
+  border: 1px solid rgba(200, 150, 255, 0.6);
+  max-width: 90%;
+  width: 350px;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-icon {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+.modal-content h2 {
+  color: #f8edff;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  outline: none;
+  transition: 0.2s;
+  font-family: inherit;
+}
+
+.modal-content input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px #c77dff;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  background: linear-gradient(115deg, #bd7be0, #9b4fca);
+  border: none;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  border-radius: 80px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.modal-content button:hover {
+  transform: scale(1.02);
+  background: linear-gradient(115deg, #cd8eff, #b15fdf);
+}
+
+.error-message {
+  color: #ffa8b5;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  min-height: 40px;
+}
+
+.password-hint {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 12px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  color: #ffd6b0;
+  margin: 15px 0;
+  line-height: 1.4;
+  border-left: 3px solid #ff69b4;
+  text-align: center;
+}
+
+.password-hint strong {
+  color: #ff9fdf;
+  text-shadow: 0 0 3px #c77dff;
+}
+
+/* #passwordInput {
+  text-transform: lowercase;
+} */
+
+/* ==================== ПРОСМОТР ФОТО (УВЕЛИЧЕННОЕ) ==================== */
+.photo-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+  cursor: pointer;
+  animation: fadeInViewer 0.3s ease;
+}
+
+@keyframes fadeInViewer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.photo-viewer img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 24px;
+  box-shadow: 0 0 50px rgba(255, 100, 200, 0.6);
+  border: 3px solid rgba(255, 200, 255, 0.8);
+  object-fit: contain;
+  transition: transform 0.2s;
+}
+
+.photo-viewer img:hover {
+  transform: scale(1.02);
+}
+
+.viewer-close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  background: rgba(0,0,0,0.5);
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.viewer-close:hover {
+  background: #ff4d6d;
+  transform: scale(1.1);
+}
