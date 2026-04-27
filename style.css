@@ -949,6 +949,8 @@ body::after {
     --memo-success: #4ECDC4;
     --memo-border: #2D3561;
 }
+
+/* Модальное окно – изначально скрыто, появляется по классу active */
 .memo-game-modal {
     position: fixed;
     top: 0;
@@ -974,8 +976,8 @@ body::after {
     background: linear-gradient(135deg, #0A0E27 0%, #16213E 100%);
     border-radius: 16px;
     border: 2px solid var(--memo-border);
-    padding: 40px;
-    max-width: 1000px;
+    padding: 30px 20px;
+    max-width: 1200px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
@@ -1024,7 +1026,6 @@ body::after {
     background-clip: text;
     color: transparent;
     letter-spacing: 2px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 .memo-game-subtitle {
     font-size: 0.9rem;
@@ -1061,13 +1062,11 @@ body::after {
     transform: translateX(5px);
     background: rgba(255,107,157,0.2);
 }
-
 .memo-history-time {
     color: #FFA502;
     font-weight: bold;
     font-size: 0.9rem;
 }
-
 .memo-history-date {
     font-size: 0.7rem;
     color: #B0B8D4;
@@ -1103,17 +1102,47 @@ body::after {
     cursor: pointer;
     font-weight: bold;
 }
+
+/* ========== АДАПТИВНАЯ СЕТКА КАРТОЧЕК ========== */
 .memo-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(70px, 85px));
     gap: 12px;
     justify-content: center;
     margin-top: 20px;
-    
 }
+
+/* Базовое количество колонок – подстраивается под экран */
+@media (min-width: 1200px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(8, minmax(70px, 85px));
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(6, minmax(65px, 80px));
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(5, minmax(60px, 75px));
+    }
+}
+@media (min-width: 481px) and (max-width: 767px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(4, minmax(60px, 70px));
+    }
+}
+@media (max-width: 480px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(3, minmax(55px, 65px));
+        gap: 8px;
+    }
+}
+
+/* Сама карточка – квадрат, размер определяется сеткой через width: 100% */
 .memo-card {
     width: 100%;
-    aspect-ratio: 1 / 1;  /* квадрат */
+    aspect-ratio: 1 / 1;
     max-width: 85px;
     perspective: 800px;
     cursor: pointer;
@@ -1123,9 +1152,10 @@ body::after {
 }
 .memo-card.memo-card-visible {
     opacity: 1;
-    transform: scale(1) rotateY(0deg);
+    transform: scale(1);
 }
 
+/* 3D flip-структура */
 .memo-card-inner {
     position: relative;
     width: 100%;
@@ -1138,22 +1168,38 @@ body::after {
 .memo-card.memo-flipped .memo-card-inner {
     transform: rotateY(180deg);
 }
-.memo-card img {
+
+.memo-card-front, .memo-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.memo-card-front {
+    background: #fff;
+    transform: rotateY(180deg);
+}
+.memo-card-front img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 14px;
 }
+.memo-card-back {
+    background: radial-gradient(circle at 30% 20%, #FFB347, #FF6B9D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    transform: rotateY(0deg);
+}
+
 .memo-card.memo-matched {
     opacity: 0.6;
     cursor: default;
     filter: grayscale(0.1);
-}
-.memo-card.memo-shake {
-    animation: memo-shake 0.3s ease-in-out;
-}
-.memo-card.memo-flipped {
-    background: rgba(255,107,157,0.2);
 }
 .memo-card.memo-shake {
     animation: memo-shake 0.3s ease-in-out;
@@ -1163,6 +1209,8 @@ body::after {
     25%{ transform:translateX(-5px);}
     75%{ transform:translateX(5px);}
 }
+
+/* Окно завершения игры, анимация сердца и частицы – без изменений */
 .memo-game-over-modal {
     position: fixed;
     top:0; left:0;
@@ -1204,22 +1252,8 @@ body::after {
 @keyframes memo-particleBurst {
     to { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
 }
-@media (max-width: 650px) {
-    .memo-card { width: 70px; height: 70px; }
-    .memo-cards-grid { gap: 8px; }
-}
-@media (max-width: 480px) {
-    .memo-card { width: 60px; height: 60px; }
-}
 
-/* Принудительно скрываем игровое окно, пока не активен класс */
-.memo-game-modal {
-    display: none !important;
-}
-.memo-game-modal.memo-active {
-    display: flex !important;
-}
-
+/* Анимация сердца (при старте игры) */
 .memo-start-animation {
     position: fixed;
     top: 50%;
@@ -1260,64 +1294,12 @@ body::after {
     100% { transform: scale(0) rotate(var(--rot, 0deg)); opacity: 0; }
 }
 
-/* Сетка для 32 карточек (8 колонок на широких экранах) */
-.memo-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 12px;
-    justify-items: center;
-    margin-top: 20px;
+/* Скрываем вспомогательные контейнеры, пока игра не активна */
+.memo-start-animation,
+.memo-heart-particles,
+.memo-game-over-modal {
+    display: none !important;
 }
-
-/* Адаптация под разные экраны */
-@media (max-width: 900px) {
-    .memo-cards-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
-@media (max-width: 650px) {
-    .memo-cards-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    .memo-card {
-        width: 70px;
-        height: 70px;
-    }
-}
-@media (max-width: 480px) {
-    .memo-cards-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    .memo-card {
-        width: 60px;
-        height: 60px;
-    }
-}
-
-/* Анимация появления карточек с пружинным эффектом */
-.memo-card-front, .memo-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 16px;
-    overflow: hidden;
-}
-.memo-card-front {
-    background: #fff;
-    transform: rotateY(180deg);
-}
-.memo-card-front img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.memo-card-back {
-    background: radial-gradient(circle at 30% 20%, #FFB347, #FF6B9D);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    color: white;
-    transform: rotateY(0deg);
+.memo-start-animation.active {
+    display: flex !important;
 }
