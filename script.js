@@ -1,35 +1,35 @@
 // ==================== ПАРОЛЬ ====================
-const CORRECT_PASSWORD = "хочу";   // ← задайте свой пароль
+// const CORRECT_PASSWORD = "хочу";   // ← задайте свой пароль
 
-function initPasswordProtection() {
-  const modal = document.getElementById('passwordModal');
-  const passwordInput = document.getElementById('passwordInput');
-  const submitBtn = document.getElementById('submitPassword');
-  const errorDiv = document.getElementById('errorMsg');
-  const appContent = document.getElementById('appContent');
+// function initPasswordProtection() {
+//   const modal = document.getElementById('passwordModal');
+//   const passwordInput = document.getElementById('passwordInput');
+//   const submitBtn = document.getElementById('submitPassword');
+//   const errorDiv = document.getElementById('errorMsg');
+//   const appContent = document.getElementById('appContent');
 
-  function unlockApp() {
-    modal.style.display = 'none';
-    appContent.style.display = 'block';
-    startApp();  // запускаем основную логику после успешного входа
-  }
+//   function unlockApp() {
+//     modal.style.display = 'none';
+//     appContent.style.display = 'block';
+//     startApp();  // запускаем основную логику после успешного входа
+//   }
 
-function checkPassword() {
-  const pwd = passwordInput.value.trim().toLowerCase();
-  if (pwd === CORRECT_PASSWORD.toLowerCase()) {
-    unlockApp();
-  } else {
-    errorDiv.textContent = '❌ Неверный пароль. Попробуйте ещё раз.';
-    passwordInput.value = '';
-    passwordInput.focus();
-  }
-}
+// function checkPassword() {
+//   const pwd = passwordInput.value.trim().toLowerCase();
+//   if (pwd === CORRECT_PASSWORD.toLowerCase()) {
+//     unlockApp();
+//   } else {
+//     errorDiv.textContent = '❌ Неверный пароль. Попробуйте ещё раз.';
+//     passwordInput.value = '';
+//     passwordInput.focus();
+//   }
+// }
 
-  submitBtn.addEventListener('click', checkPassword);
-  passwordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') checkPassword();
-  });
-}
+//   submitBtn.addEventListener('click', checkPassword);
+//   passwordInput.addEventListener('keypress', (e) => {
+//     if (e.key === 'Enter') checkPassword();
+//   });
+// }
 
 // ==================== ОСНОВНАЯ ЛОГИКА ПРИЛОЖЕНИЯ ====================
 function startApp() {
@@ -302,8 +302,17 @@ photoHeartBtn.addEventListener('click', () => {
 document.getElementById('backBtn').addEventListener('click', goToMainPage);
 
 // ==================== ЗАПУСК ЗАЩИТЫ ПОСЛЕ ЗАГРУЗКИ DOM ====================
+// document.addEventListener('DOMContentLoaded', () => {
+//   initPasswordProtection();  // инициализируем модальное окно (оно уже есть в HTML)
+// });
 document.addEventListener('DOMContentLoaded', () => {
-  initPasswordProtection();  // инициализируем модальное окно (оно уже есть в HTML)
+  createPhotoGrid();
+  // можно добавить приветственные эффекты
+  setTimeout(() => {
+    burstConfetti();
+    createFloatingHearts(16);
+    setRandomMessage();
+  }, 400);
 });
 // ==================== ОТКРЫТИЕ ФОТО В УВЕЛИЧЕННОМ ВИДЕ ====================
 function openPhotoViewer(imgSrc) {
@@ -333,4 +342,6 @@ function openPhotoViewer(imgSrc) {
   });
 }
 
-console.log('%c✨ Готово. Для входа введите пароль: love ✨', 'color:#c77dff;font-size:14px;font-weight:bold');
+// console.log('%c✨ Готово. Для входа введите пароль: love ✨', 'color:#c77dff;font-size:14px;font-weight:bold');
+
+// начинается игра memo

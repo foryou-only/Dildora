@@ -678,7 +678,7 @@ body::after {
 
 
 /* ==================== МОДАЛЬНОЕ ОКНО ПАРОЛЯ ==================== */
-.modal {
+/* .modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -788,7 +788,7 @@ body::after {
 .password-hint strong {
   color: #ff9fdf;
   text-shadow: 0 0 3px #c77dff;
-}
+} */
 
 /* #passwordInput {
   text-transform: lowercase;
@@ -851,4 +851,473 @@ body::after {
 .viewer-close:hover {
   background: #ff4d6d;
   transform: scale(1.1);
+}
+
+/* // начинается игра memo */
+
+/* ==================== МОДАЛКА ДЛЯ ИГРЫ ==================== */
+.game-modal {
+  z-index: 20000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.game-modal.active {
+  display: flex;
+}
+.game-modal-content {
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #2a1a3e, #1e1a3a);
+  border-radius: 40px;
+  padding: 20px;
+  width: auto;
+  animation: fadeInUp 0.4s ease;
+}
+.close-game-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2.5rem;
+  color: #ffb3f0;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.close-game-modal:hover {
+  color: #ff69b4;
+  transform: scale(1.1);
+}
+
+/* Адаптация самой игры под модалку */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 0;
+  padding: 10px;
+}
+.game-section {
+  background: rgba(30, 20, 50, 0.7);
+  border-radius: 32px;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.cards-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+@media (max-width: 550px) {
+  .cards-grid {
+    grid-template-columns: repeat(4, 70px);
+    gap: 8px;
+  }
+}
+.history-panel {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 28px;
+  padding: 15px;
+  min-width: 180px;
+}
+
+.memo-start-animation,
+.memo-heart-particles,
+
+.memo-game-over-modal {
+    display: none !important;
+}
+
+.memo-start-animation.active {
+    display: flex !important;
+}
+
+/* Игровое модальное окно – изначально скрыто, но может быть показано через класс active */
+
+:root {
+    --memo-primary: #FF6B9D;
+    --memo-secondary: #C44569;
+    --memo-accent: #FFA502;
+    --memo-dark-bg: #0A0E27;
+    --memo-card-bg: #1A1F3A;
+    --memo-text: #FFFFFF;
+    --memo-text-light: #B0B8D4;
+    --memo-success: #4ECDC4;
+    --memo-border: #2D3561;
+}
+.memo-game-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 39, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+}
+.memo-game-modal.memo-active {
+    opacity: 1;
+    pointer-events: all;
+}
+.memo-game-modal-content {
+    background: linear-gradient(135deg, #0A0E27 0%, #16213E 100%);
+    border-radius: 16px;
+    border: 2px solid var(--memo-border);
+    padding: 40px;
+    max-width: 1000px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+.memo-close-game {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--memo-primary);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    transition: all 0.3s;
+    z-index: 10;
+}
+.memo-game-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.memo-game-section {
+    flex: 2;
+    min-width: 280px;
+}
+.memo-history-panel {
+    flex: 1;
+    background: rgba(26, 31, 58, 0.6);
+    border-left: 1px solid var(--memo-border);
+    padding: 20px;
+    border-radius: 16px;
+}
+.memo-game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.memo-game-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FF6B9D, #FFA502);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.memo-game-subtitle {
+    font-size: 0.9rem;
+    color: #B0B8D4;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 5px;
+}
+.memo-history-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #FFA502;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(255,165,2,0.3);
+    display: inline-block;
+}
+.memo-history-empty {
+    text-align: center;
+    color: #B0B8D4;
+    padding: 20px;
+    font-style: italic;
+}
+.memo-history-item {
+    background: rgba(255,107,157,0.1);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+.memo-history-item:hover {
+    transform: translateX(5px);
+    background: rgba(255,107,157,0.2);
+}
+
+.memo-history-time {
+    color: #FFA502;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.memo-history-date {
+    font-size: 0.7rem;
+    color: #B0B8D4;
+    margin-top: 4px;
+}
+.memo-stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+.memo-stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--memo-accent);
+}
+.memo-stat-label {
+    font-size: 12px;
+    color: var(--memo-text-light);
+}
+.memo-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+.memo-btn {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--memo-primary), var(--memo-secondary));
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.memo-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 85px));
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+    
+}
+.memo-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;  /* квадрат */
+    max-width: 85px;
+    perspective: 800px;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.memo-card.memo-card-visible {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+}
+
+.memo-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 16px;
+}
+.memo-card.memo-flipped .memo-card-inner {
+    transform: rotateY(180deg);
+}
+.memo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px;
+}
+.memo-card.memo-matched {
+    opacity: 0.6;
+    cursor: default;
+    filter: grayscale(0.1);
+}
+.memo-card.memo-shake {
+    animation: memo-shake 0.3s ease-in-out;
+}
+.memo-card.memo-flipped {
+    background: rgba(255,107,157,0.2);
+}
+.memo-card.memo-shake {
+    animation: memo-shake 0.3s ease-in-out;
+}
+@keyframes memo-shake {
+    0%,100%{ transform:translateX(0);}
+    25%{ transform:translateX(-5px);}
+    75%{ transform:translateX(5px);}
+}
+.memo-game-over-modal {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    opacity: 0;
+    pointer-events: none;
+}
+.memo-game-over-modal.memo-show {
+    opacity: 1;
+    pointer-events: all;
+}
+.memo-game-over-content {
+    background: linear-gradient(135deg, #1A1F3A, #16213E);
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+.memo-heart-particles {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+}
+.memo-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #FF6B9D;
+    border-radius: 50%;
+}
+.memo-particle.burst {
+    animation: memo-particleBurst 1s forwards;
+}
+@keyframes memo-particleBurst {
+    to { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+@media (max-width: 650px) {
+    .memo-card { width: 70px; height: 70px; }
+    .memo-cards-grid { gap: 8px; }
+}
+@media (max-width: 480px) {
+    .memo-card { width: 60px; height: 60px; }
+}
+
+/* Принудительно скрываем игровое окно, пока не активен класс */
+.memo-game-modal {
+    display: none !important;
+}
+.memo-game-modal.memo-active {
+    display: flex !important;
+}
+
+.memo-start-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10002;
+    pointer-events: none;
+}
+.memo-heart {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+.memo-heart::before,
+.memo-heart::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 160px;
+    background: linear-gradient(135deg, #FF6B9D, #FFA502);
+    border-radius: 100px 100px 0 0;
+    top: 0;
+    animation: memo-heartBeat 1.5s ease-in-out;
+}
+.memo-heart::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+.memo-heart::after {
+    left: -50px;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+@keyframes memo-heartBeat {
+    0% { transform: scale(0) rotate(var(--rot, 0deg)); opacity: 1; }
+    50% { transform: scale(1.2) rotate(var(--rot, 0deg)); }
+    100% { transform: scale(0) rotate(var(--rot, 0deg)); opacity: 0; }
+}
+
+/* Сетка для 32 карточек (8 колонок на широких экранах) */
+.memo-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 12px;
+    justify-items: center;
+    margin-top: 20px;
+}
+
+/* Адаптация под разные экраны */
+@media (max-width: 900px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+@media (max-width: 650px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .memo-card {
+        width: 70px;
+        height: 70px;
+    }
+}
+@media (max-width: 480px) {
+    .memo-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .memo-card {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Анимация появления карточек с пружинным эффектом */
+.memo-card-front, .memo-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.memo-card-front {
+    background: #fff;
+    transform: rotateY(180deg);
+}
+.memo-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.memo-card-back {
+    background: radial-gradient(circle at 30% 20%, #FFB347, #FF6B9D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    transform: rotateY(0deg);
 }

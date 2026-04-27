@@ -3,59 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Твоё сердце | Магия</title>
+  <title>Твоё сердце | Магия + Игра</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="memo-game-photo.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
 </head>
 <body>
 
-<!-- Модальное окно для пароля -->
-<div id="passwordModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-icon">🔐💜</div>
-    <h2>Введите пароль</h2>
-    <p class="password-hint">
-      ⏳ так как ты не открыла ссылку в течение 24 часов<br>
-      и не последовала соответствующая реакция чтобы узнать пароль —<br>
-      <strong>ты должна написать мне</strong> 💬
-    </p>
-    <input type="password" id="passwordInput" placeholder="Пароль" autocomplete="off">
-    <button id="submitPassword">Войти</button>
-    <div id="errorMsg" class="error-message"></div>
-  </div>
-</div>
+<!-- ==================== ГЛАВНАЯ СТРАНИЦА ==================== -->
+<div class="page main-page active" id="mainPage">
+  <div class="glass-card">
+    <div class="emoji-zone">🌙✨🪄💜✨</div>
+    <h1 class="glow-text">Ты — волшебство!</h1>
+    <div class="sub">✨ Сердце собирается из твоих моментов ✨</div>
 
-<!-- Весь основной контоль обёрнут в блок, который станет виден после ввода пароля -->
-<div id="appContent" style="display: none;">
-  <!-- ==================== ГЛАВНАЯ СТРАНИЦА ==================== -->
-  <div class="page main-page active" id="mainPage">
-    <div class="glass-card">
-      <div class="emoji-zone">🌙✨🪄💜✨</div>
-      <h1 class="glow-text">Ты — волшебство!</h1>
-      <div class="sub">✨ Сердце собирается из твоих моментов ✨</div>
-
-      <div class="message-box" id="inspireMessage">
-        <span class="message-text">💜 Нажми на кнопку — и мир наполнится счастьем 💜</span>
-      </div>
-
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <button class="cheer-button" id="cheerBtn">🎉 Поднять настроение 🎉</button>
-        <button class="heart-photo-btn" id="photoHeartBtn">📸 Создать магию 💜</button>
-      </div>
+    <div class="message-box" id="inspireMessage">
+      <span class="message-text">💜 Нажми на кнопку — и мир наполнится счастьем 💜</span>
     </div>
 
-    <div class="photo-grid-container">
-      <div class="photo-grid" id="photoGrid"></div>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <button class="cheer-button" id="cheerBtn">🎉 Поднять настроение 🎉</button>
+      <button class="heart-photo-btn" id="photoHeartBtn">📸 Создать магию 💜</button>
+      <!-- Кнопка для игры -->
+      <button class="cheer-button" id="startGameBtn">🎮 Начать игру 🧠</button>
     </div>
   </div>
 
-  <!-- ==================== СТРАНИЦА С СЕРДЦЕМ ==================== -->
-  <div class="page heart-page" id="heartPage">
-    <button class="back-btn" id="backBtn">← Назад на главную</button>
-    <div class="heart-canvas" id="heartCanvas"></div>
+  <div class="photo-grid-container">
+    <div class="photo-grid" id="photoGrid"></div>
   </div>
 </div>
 
+<!-- ==================== СТРАНИЦА С СЕРДЦЕМ ==================== -->
+<div class="page heart-page" id="heartPage">
+  <button class="back-btn" id="backBtn">← Назад на главную</button>
+  <div class="heart-canvas" id="heartCanvas"></div>
+</div>
+
+<!-- Весь остальной HTML игры (модалки, анимации) УДАЛЁН — будет создан скриптом -->
+
+<script src="memo-game-photo.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
