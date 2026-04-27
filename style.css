@@ -1134,7 +1134,7 @@ body::after {
 }
 @media (max-width: 480px) {
     .memo-cards-grid {
-        grid-template-columns: repeat(3, minmax(55px, 65px));
+        grid-template-columns: repeat(4, minmax(55px, 65px));
         gap: 8px;
     }
 }
