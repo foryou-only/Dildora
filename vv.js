@@ -98,11 +98,11 @@ function valentineShowVideo() {
 
             // Если видео уже буферизовано достаточно – запускаем с короткой паузой
             if (video.readyState >= 3) {
-                setTimeout(tryPlay, 400);
+                setTimeout(tryPlay, 100);
             } else {
                 video.addEventListener('canplaythrough', function onCanPlay() {
                     video.removeEventListener('canplaythrough', onCanPlay);
-                    setTimeout(tryPlay, 400);
+                    setTimeout(tryPlay, 100);
                 });
                 // Запасной таймаут на случай, если событие не сработает
                 setTimeout(() => {
