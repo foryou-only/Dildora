@@ -3,31 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Твоё сердце | Магия + Игра</title>
+  <title>Твоё сердце </title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="memo-game-photo.css">
+  <link rel="stylesheet" href="vv.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
 </head>
 <body>
 
 <!-- ==================== ГЛАВНАЯ СТРАНИЦА ==================== -->
 <div class="page main-page active" id="mainPage">
-  <div class="glass-card">
-    <div class="emoji-zone">🌙✨🪄💜✨</div>
-    <h1 class="glow-text">Ты — волшебство!</h1>
-    <div class="sub">✨ Сердце собирается из твоих моментов ✨</div>
+    <div class="glass-card">
+        <div class="emoji-zone">🌙✨🪄💜✨</div>
+        <h1 class="glow-text">Ты — волшебство!</h1>
+        <div class="sub">✨ Сердце собирается из твоих моментов ✨</div>
 
-    <div class="message-box" id="inspireMessage">
-      <span class="message-text">💜 Нажми на кнопку — и мир наполнится счастьем 💜</span>
+        <div class="message-box" id="inspireMessage">
+        <span class="message-text">💜 Нажми на кнопку — и мир наполнится счастьем 💜</span>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button class="cheer-button" id="cheerBtn">🎉 Поднять настроение 🎉</button>
+        <button class="heart-photo-btn" id="photoHeartBtn">📸 Создать магию 💜</button>
+        <!-- Кнопка для игры -->
+        <button class="cheer-button" id="startGameBtn">🎮 Начать игру 🧠</button>
+        <!-- <button class="btn-main" onclick="showModal()" style="margin-top: 30px;">Нажми сюда</button> -->
+        <button class="btn-main danger-btn" onclick="showModal()" style="margin-top: 30px;">
+            ⚡ НЕ НАЖИМАТЬ! ОПАСНО ⚡
+        </button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== ЭКРАНЫ ВАЛЕНТИНКИ ==================== -->
+<div class="valentine-container" id="valentineContainer">
+    <!-- Главный экран валентинки (скрыт, т.к. у нас своя кнопка) -->
+    <!-- <div class="screen main-screen hidden" id="mainScreen">
+        <h1>✨ Есть кое-что для тебя ✨</h1>
+        <button class="btn-main" onclick="showModal()">Нажми сюда</button>
+    </div> -->
+
+    <!-- Экран поворота телефона -->
+    <div class="screen rotation-screen hidden" id="rotationScreen">
+        <div class="phone-rotation-valentine-container">
+            <div class="phone-device">
+                <div class="phone-screen"></div>
+            </div>
+        </div>
+        <p class="rotation-text">Поверни телефон в горизонтальное положение</p>
     </div>
 
-    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-      <button class="cheer-button" id="cheerBtn">🎉 Поднять настроение 🎉</button>
-      <button class="heart-photo-btn" id="photoHeartBtn">📸 Создать магию 💜</button>
-      <!-- Кнопка для игры -->
-      <button class="cheer-button" id="startGameBtn">🎮 Начать игру 🧠</button>
+    <!-- Экран наушников -->
+    <div class="screen headphones-screen hidden" id="headphonesScreen">
+        <div class="headphones-valentine-container">
+            <div class="headphones-illustration">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="headphone-cup left-cup" cx="50" cy="100" r="25" fill="none" stroke="#E0E0E0" stroke-width="3"/>
+                    <circle class="headphone-cup right-cup" cx="150" cy="100" r="25" fill="none" stroke="#E0E0E0" stroke-width="3"/>
+                    <path class="headphone-band" d="M 50 75 Q 100 40 150 75" fill="none" stroke="#E0E0E0" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+        <h2 class="headphones-text">USE HEADPHONES FOR THE BEST EXPERIENCE</h2>
+        <p class="headphones-subtitle">Надень наушники для лучшего впечатления 🎧</p>
     </div>
-  </div>
+
+    <!-- Экран валентинки -->
+    <div class="screen valentine-screen hidden" id="valentineScreen">
+        <div style="text-align: center;">
+            <div class="heart-decoration">❤️</div>
+            <h2>Для тебя</h2>
+            <p>Я подготовил что-то особенное. Тебе понравится! 💕</p>
+            <button class="btn-start" onclick="valentineShowVideo()">Начать</button>
+        </div>
+    </div>
+
+    <!-- Экран видео -->
+    <!-- Экран видео -->
+    <div class="screen video-screen hidden" id="videoScreen" style="display: none;">
+        <div class="video-valentine-container">
+            <video id="myVideo" playsinline muted preload="auto"
+                  style="width: 100%; height: 100%; object-fit: cover; display: block; background: black;">
+                <source src="/video/DD.mp4 type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+            <button class="close-video-btn" onclick="valentineCloseVideo()">✕</button>
+        </div>
+    </div>
+
+    <!-- Экран отказа -->
+    <!-- <div class="screen rejection-screen hidden" id="rejectionScreen">
+        <span class="rejection-icon">💌</span>
+        <h2>Заходи, когда будешь готова</h2>
+        <button class="back-btn" onclick="valentineGoBack()">Вернуться</button>
+    </div>  -->
+</div>
+
+<!-- Модальное окно -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h2>Ты уверена?</h2>
+        <p style="color: var(--text-light); margin-bottom: 10px;">После этого уже не будет пути назад 💫</p>
+        <div class="modal-buttons">
+            <!-- <button class="btn-modal" onclick="valentineReject()">Нет</button> -->
+            <button class="btn-modal yes" onclick="startValentineRotation()">Да</button>
+        </div>
+    </div>
+</div>
+
 
   <div class="photo-grid-container">
     <div class="photo-grid" id="photoGrid"></div>
@@ -44,5 +127,7 @@
 
 <script src="memo-game-photo.js"></script>
 <script src="script.js"></script>
+<script src="vv.js"></script>
+
 </body>
 </html>

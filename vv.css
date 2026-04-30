@@ -1,0 +1,732 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #FF6B9D 0%, #FFB6D9 50%, #FFC0E3 100%);
+    --secondary-gradient: linear-gradient(135deg, #FF8FB3 0%, #FFD4E5 100%);
+    --accent-color: #FF4757;
+    --gold-color: #FFD700;
+    --soft-pink: #FFE0E6;
+    --light-purple: #F3E5F5;
+    --text-dark: #333;
+    --text-light: #666;
+}
+.valentine-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #FFF5F7 0%, #FFF0F5 100%);
+    padding: 20px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.valentine-container.active {
+    display: flex;
+    pointer-events: auto;
+}
+/* .valentine-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #FFF5F7 0%, #FFF0F5 100%);
+    padding: 20px;
+} */
+
+/* .heart-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+} */
+
+.floating-heart {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.15;
+    animation: float-heart 6s ease-in-out infinite;
+}
+
+@keyframes float-heart {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.6s ease-in-out;
+    z-index: 1;
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ГЛАВНЫЙ ЭКРАН */
+.main-screen {
+    text-align: center;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-screen h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* .btn-main {
+    padding: 16px 48px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+}
+
+.btn-main:active {
+    transform: translateY(0);
+} */
+/* Опасная кнопка */
+.danger-btn {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(115deg, #b30000, #ff1a1a);
+    color: white;
+    border-radius: 80px;
+    border: none;
+    box-shadow: 0 0 25px rgba(255,0,0,0.7), 0 12px 25px rgba(0,0,0,0.3);
+    animation: dangerPulse 1.5s ease-in-out infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+}
+
+.danger-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 45px rgba(255,0,0,1), 0 15px 30px rgba(0,0,0,0.5);
+    background: linear-gradient(115deg, #cc0000, #ff3333);
+}
+
+@keyframes dangerPulse {
+    0%, 100% { 
+        box-shadow: 0 0 25px rgba(255,0,0,0.7), 0 12px 25px rgba(0,0,0,0.3);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 45px rgba(255,0,0,1), 0 12px 25px rgba(0,0,0,0.3);
+        transform: scale(1.05);
+    }
+}
+/* МОДАЛЬНОЕ ОКНО */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999 ;
+    backdrop-filter: blur(4px);
+}
+
+.modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.btn-modal {
+    flex: 1;
+    padding: 12px 24px;
+    border: 2px solid var(--accent-color);
+    background: white;
+    color: var(--accent-color);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-modal.yes {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-modal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.2);
+}
+
+/* ЭКРАН ПОВОРОТА ТЕЛЕФОНА */
+.rotation-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.phone-rotation-valentine-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-device {
+    width: 100px;
+    height: 140px;
+    border: 3px solid rgba(255, 215, 0, 0.6);
+    border-radius: 12px;
+    background: rgba(50, 50, 50, 0.5);
+    position: relative;
+    animation: rotatePhoneDevice 1.8s ease-in-out forwards;
+    transform-origin: center center;
+}
+
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+@keyframes rotatePhoneDevice {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(90deg); 
+    }
+}
+
+.rotation-text {
+    font-size: 18px;
+    color: var(--text-dark);
+    font-weight: 600;
+    text-align: center;
+    max-width: 300px;
+}
+
+/* ЭКРАН НАУШНИКОВ */
+.headphones-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.headphones-valentine-container {
+    width: 240px;
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    animation: floatContainer 3s ease-in-out infinite;
+}
+@keyframes floatContainer {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+.headphones-illustration {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.headphones-illustration svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 30px rgba(255, 107, 157, 0.2));
+    animation: svgGlow 2s ease-in-out infinite;
+}
+/* Пульсирующая тень */
+@keyframes svgGlow {
+    0%, 100% { filter: drop-shadow(0 10px 30px rgba(255, 107, 157, 0.2)); }
+    50% { filter: drop-shadow(0 15px 40px rgba(255, 20, 147, 0.5)); }
+}
+
+@keyframes putOnHeadphones {
+    0% {
+        opacity: 0;
+        transform: translateY(-60px) scale(0.8);
+    }
+    15% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(0px) scale(1);
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+}
+
+.headphone-cup {
+    transform-origin: center bottom;
+}
+
+.headphone-cup.left-cup {
+    transform-origin: 50px 100px; /* точка подвеса */
+    animation: leftCupDynamic 2.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+.headphone-cup.right-cup {
+    transform-origin: 150px 100px;
+    animation: rightCupDynamic 2.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+.headphone-band {
+    transform-origin: 100px 40px;
+    animation: bandDynamic 2.2s ease-in-out infinite;
+}
+
+/* Анимация левой чашки: подлёт с вращением */
+@keyframes leftCupDynamic {
+    0% {
+        transform: translateY(-80px) rotateZ(70deg) rotateX(30deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px) rotateZ(10deg) rotateX(0deg);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(-20px) rotateZ(-5deg) rotateX(0deg);
+    }
+    100% {
+        transform: translateY(0px) rotateZ(0deg) rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+/* Анимация правой чашки: симметрично */
+@keyframes rightCupDynamic {
+    0% {
+        transform: translateY(-80px) rotateZ(-70deg) rotateX(30deg);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px) rotateZ(-10deg) rotateX(0deg);
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(-20px) rotateZ(5deg) rotateX(0deg);
+    }
+    100% {
+        transform: translateY(0px) rotateZ(0deg) rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+/* Дужка: упругое растяжение с волной */
+@keyframes bandDynamic {
+    0% {
+        transform: scaleY(0.2) translateY(-60px);
+        opacity: 0;
+    }
+    40% {
+        transform: scaleY(1.1) translateY(10px);
+        opacity: 1;
+    }
+    60% {
+        transform: scaleY(0.9) translateY(-5px);
+    }
+    80% {
+        transform: scaleY(1.02) translateY(2px);
+    }
+    100% {
+        transform: scaleY(1) translateY(0px);
+        opacity: 1;
+    }
+}
+
+.headphones-text {
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FF6B9D 0%, #FF1744 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: fadeInText 0.8s ease-out 0.3s both, slideUpText 0.8s ease-out 0.3s both;
+    line-height: 1.4;
+    font-family: 'Arial Black', sans-serif;
+}
+
+.headphones-subtitle {
+    font-size: 18px;
+    color: var(--text-dark);
+    text-align: center;
+    animation: fadeInText 0.8s ease-out 0.6s both, slideUpText 0.8s ease-out 0.6s both;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUpText {
+    from { transform: translateY(20px); }
+    to { transform: translateY(0px); }
+}
+/* ЭКРАН ВАЛЕНТИНКИ */
+.valentine-screen {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 25px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 50px rgba(255, 107, 157, 0.15);
+    animation: slideInFromBottom 0.6s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes slideInFromBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.valentine-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-gradient);
+}
+
+.heart-decoration {
+    font-size: 40px;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: pulse-heart 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-heart {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+.valentine-screen h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    animation: slideInTitle 0.8s ease-out 0.3s both;
+}
+
+@keyframes slideInTitle {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.valentine-screen p {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.btn-start {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-start:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+}
+
+/* ЭКРАН ВИДЕО */
+.video-screen {
+    width: 100%;
+    height: 100%;
+    background: black;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    animation: fadeInDown 0.3s ease-out;
+}
+
+
+.video-valentine-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+}
+
+.video-valentine-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+/* ЭКРАН ОТКАЗА */
+.rejection-screen {
+    text-align: center;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.rejection-screen h2 {
+    font-size: 24px;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+}
+
+.rejection-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.back-btn {
+    margin-top: 30px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid var(--accent-color);
+    background: white;
+    color: var(--accent-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: var(--soft-pink);
+    transform: translateY(-2px);
+}
+
+/* АДАПТИВНОСТЬ */
+@media (max-width: 600px) {
+    .valentine-screen, .video-screen {
+        max-width: calc(100vw - 20px);
+    }
+
+    .modal {
+        max-width: calc(100vw - 40px);
+    }
+
+    .main-screen h1 {
+        font-size: 24px;
+    }
+
+    .valentine-screen h2 {
+        font-size: 24px;
+    }
+
+    .rotation-arrow {
+        font-size: 36px;
+    }
+
+    .left-arrow {
+        left: -55px;
+    }
+
+    .right-arrow {
+        right: -55px;
+    }
+}
+
+.close-video-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+.close-video-btn:hover {
+    background: rgba(255, 71, 87, 0.8);
+}
+video {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
