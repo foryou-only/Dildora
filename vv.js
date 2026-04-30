@@ -55,20 +55,6 @@ function startValentineRotation() {
 // ==================== КНОПКА «НАЧАТЬ» – АНИМАЦИИ И ВИДЕО ====================
 
 function valentineShowVideo() {
-    const container = document.getElementById('valentineContainer');
-
-    // Полноэкранный режим
-    const video = document.getElementById('myVideo');
-    if (video) {
-        if (video.requestFullscreen) {
-            video.requestFullscreen().catch(() => {});
-        } else if (video.webkitEnterFullscreen) {   // iOS Safari
-            video.webkitEnterFullscreen();
-        } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-        }
-    }
-
     showValentineScreen('rotationScreen');
     const phoneDevice = document.querySelector('.phone-device');
     if (phoneDevice) {
@@ -88,15 +74,22 @@ function valentineShowVideo() {
             const video = document.getElementById('myVideo');
             if (!video) return;
 
-            video.muted = false;
+            video.muted = false;          // ← обязательно для автозапуска
             video.currentTime = 0;
 
-            // Функция запуска видео, когда оно точно готово
             function tryPlay() {
-                video.play().catch(err => console.log('Ошибка видео:', err));
+                video.play().then(() => {
+                    // ТОЛЬКО ПОСЛЕ УСПЕШНОГО СТАРТА — ПОЛНОЭКРАННЫЙ РЕЖИМ
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen().catch(() => {});
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) {
+                        video.msRequestFullscreen();
+                    }
+                }).catch(err => console.log('Ошибка видео:', err));
             }
 
-            // Если видео уже буферизовано достаточно – запускаем с короткой паузой
             if (video.readyState >= 3) {
                 setTimeout(tryPlay, 100);
             } else {
@@ -104,13 +97,11 @@ function valentineShowVideo() {
                     video.removeEventListener('canplaythrough', onCanPlay);
                     setTimeout(tryPlay, 100);
                 });
-                // Запасной таймаут на случай, если событие не сработает
                 setTimeout(() => {
                     if (video.paused) tryPlay();
                 }, 3000);
             }
 
-            // Конец видео
             video.addEventListener('ended', onVideoEnded, { once: true });
 
         }, 2500);
@@ -181,26 +172,5 @@ function valentineCloseVideo() {
     hideValentineContainer();
 }
 
-// Обработчик выхода из полноэкранного режима
-// document.addEventListener('fullscreenchange', onFullscreenChange);
-// document.addEventListener('webkitfullscreenchange', onFullscreenChange);
 
-// function onFullscreenChange() {
-//     // Если мы вышли из полноэкранного режима (fullscreenElement === null)
-//     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-//         // Проверяем, что сейчас открыт именно видеоэкран
-//         const videoScreen = document.getElementById('videoScreen');
-//         if (videoScreen && !videoScreen.classList.contains('hidden')) {
-//             // Убедимся, что видеоэкран видим и не перекрыт
-//             videoScreen.style.display = '';  // сброс возможного inline‑style
-//             // Если видео было на паузе — не трогаем, иначе можно продолжить
-//             const video = document.getElementById('myVideo');
-//             if (video && video.paused) {
-//                 // Если видео встало на паузу при выходе, можно не дёргать
-//                 // или, при желании, возобновить:
-//                 // video.play().catch(() => {});
-//             }
-//         }
-//     }
-// }
 
