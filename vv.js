@@ -58,16 +58,16 @@ function valentineShowVideo() {
     const container = document.getElementById('valentineContainer');
 
     // Полноэкранный режим
-    const video = document.getElementById('myVideo');
-    if (video) {
-        if (video.requestFullscreen) {
-            video.requestFullscreen().catch(() => {});
-        } else if (video.webkitEnterFullscreen) {   // iOS Safari
-            video.webkitEnterFullscreen();
-        } else if (video.webkitRequestFullscreen) {
-            video.webkitRequestFullscreen();
-        }
-    }
+    // const video = document.getElementById('myVideo');
+    // if (video) {
+    //     if (video.requestFullscreen) {
+    //         video.requestFullscreen().catch(() => {});
+    //     } else if (video.webkitEnterFullscreen) {   // iOS Safari
+    //         video.webkitEnterFullscreen();
+    //     } else if (video.webkitRequestFullscreen) {
+    //         video.webkitRequestFullscreen();
+    //     }
+    // }
 
     showValentineScreen('rotationScreen');
     const phoneDevice = document.querySelector('.phone-device');
